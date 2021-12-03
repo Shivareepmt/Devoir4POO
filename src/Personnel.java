@@ -73,12 +73,12 @@ public class Personnel {
 	}
 	
 	private void modifierDispo (String jour) {
-        // UPDATE : Prendre la valeur booléenne en argument
 		System.out.println("Vous avez sélectionné le jour : " + jour + "\n");
         dispos[Jours_semaine.valueOf(jour).ordinal()] = !dispos[Jours_semaine.valueOf(jour).ordinal()] ;		
 	}
 
 	public void menuModifierDispo(){
+		Scanner scanString = new Scanner(System.in);
 		System.out.println("Pour quel jour souhaitez vous modifier votre disponibilité ?");
 		String jour = scanString.next();
 		if ((jour == "Lundi") || (jour == "Mardi") ||(jour == "Mercredi") ||(jour == "Jeudi") ||(jour == "Vendredi") ||(jour == "Samedi") ||(jour == "Dimanche")) {
@@ -102,8 +102,8 @@ public class Personnel {
 		
 	} 
 	
-	public String voirSalaire () {		
-		return "Voici votre salaire actuel : " + salaire + " $CA.";
+	public void voirSalaire () {		
+		System.out.println("Voici votre salaire actuel : " + salaire + " $CA.");
 	}
 	
 	public int compareTo (Personnel employe) {		

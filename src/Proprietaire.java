@@ -12,6 +12,16 @@ public class Proprietaire {
 		// C'est plus simple d'utilisation pour le propriétaire
 	}
 	
+    // Pour l'initialisation :
+
+    public void addPersonnel(Personnel personnel) {
+        this.personnels.add(personnel);
+    }
+
+    public void addChalet(Chalet chalet) {
+        this.chalets.add(chalet);
+    }
+
     // Méthodes pour le personnel :
 	
 	public Personnel recupProfil (int numId) {
@@ -170,6 +180,7 @@ public class Proprietaire {
 	}
 	
     public void menuAfficherDispos() {
+        Scanner scanInt = new Scanner(System.in);
         System.out.println("Choississez l'employé dont vous souhaitez voir les disponibilités en rentrant son ID");
         this.affichePersonnels();
         int numId = scanInt.nextInt();
@@ -191,10 +202,16 @@ public class Proprietaire {
     }
 
 	public void afficheChalets() {
-		System.out.println("Voici la liste des chalets :");
-		for (int i = 0; i < chalets.size(); i++) {
-            System.out.println(chalets.get(i).toString());
+        if (chalets.size() != 0) {
+            System.out.println("Voici la liste des chalets :");
+            for (int i = 0; i < chalets.size(); i++) {
+                System.out.println(chalets.get(i).toString());
+            }
         }
+        else {
+            System.out.println("Vous n'avez aucun chalet");
+        }
+		
 	}
 	
 	public int nbrChalet() {
@@ -352,7 +369,7 @@ public class Proprietaire {
         //Récupération du chalet à gérer
         System.out.println("Choississez le chalet dont vous voulez vous occuper en rentrant son ID");
         this.afficheChalets();
-        numIdChalet = scanInt.nextInt();
+        int numIdChalet = scanInt.nextInt();
         Chalet chalet = this.recupChalet(numIdChalet);
         if (chalet != null) {
 
