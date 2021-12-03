@@ -8,7 +8,7 @@ public class Personnel {
 	private String prenom;
 	private double salaire;
 	private String ville;
-	private boolean dispos[]=new boolean[7];
+	private boolean dispos[]= new boolean[7];
     private Chalet chalet[] = new Chalet[4];
 	
 	public Personnel(String nom, String prenom, double salaire,String ville,boolean dispos[]) {

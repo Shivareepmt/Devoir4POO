@@ -3,42 +3,68 @@ import java.util.Scanner;
 
 public class Proprietaire {
 	
-    private List<Personnel> personnels = new ArrayList<Personnel>();
-    private List<Chalet> chalets = new ArrayList<Chalet>();
+    private Personnel personnels[] = new Personnel[2];
+    private int nbrPersonnels = 0;
+    private Chalet chalets[] = new Chalet[2];
+    private int nbrChalets = 0;
 	
 	public Proprietaire() {
 		// Ici, le constructeur ne fait rien. Il laisse les listes vides
 		// Si l'utilisateur souhaite ajouter du personnel ou des chalets il devra faire appel aux méthodes 
 		// C'est plus simple d'utilisation pour le propriétaire
 	}
-	
-    // Pour l'initialisation à la main :
+
+    // Méthodes utilites pour la gestion des tableaux :
+    private void augmenterTaillePersonnels() {
+        Personnel buffer[] = new Personnel[personnels.length + 10];
+        for (int i = 0; i < personnels.length; i++) {
+            buffer[i] = personnels[i];
+        }
+        personnels = buffer;
+    }
 
     public void addPersonnel(Personnel personnel) {
-        this.personnels.add(personnel);
+        if (nbrPersonnels == personnels.length) {
+            augmenterTaillePersonnels() ;
+        }
+        personnels[nbrPersonnels] = personnel;
+        nbrPersonnels++;
+    }
+
+    private void augmenterTailleChalets() {
+        Chalet buffer[] = new Chalet[chalets.length + 10];
+        for (int i = 0; i < chalets.length; i++) {
+            buffer[i] = chalets[i];
+        }
+        chalets = buffer;
     }
 
     public void addChalet(Chalet chalet) {
-        this.chalets.add(chalet);
+        if (nbrChalets == chalets.length) {
+            augmenterTailleChalets() ;
+        }
+        chalets[nbrChalets] = chalet;
+        nbrChalets++;
     }
+
 
     // Méthodes pour le personnel :
 	
 	public Personnel recupProfil (int numId) {
         //S'il existe un personnel avec cet ID (i.e. l'id est un index possible de la liste personnels), 
         //on retourne le personnel associé à l'id
-        if (numId < personnels.size()) {
-            return personnels.get(numId);
+        if (numId < nbrPersonnels) {
+            return personnels[numId];
         }
         System.out.println("Il n'y a pas d'employé avec cet ID.");
         return null;
 	}
 
     public void affichePersonnels() {
-        if (personnels.size() != 0) {
+        if (nbrPersonnels != 0) {
             System.out.println("Voici la liste des employés :");
-            for (int i = 0; i < personnels.size(); i++) {
-                System.out.println("Employé n°" + i + " : " + personnels.get(i).toString());
+            for (int i = 0; i < nbrPersonnels; i++) {
+                System.out.println("Employé n°" + i + " : " + personnels[i].toString());
             }
         }
         else {
@@ -47,7 +73,7 @@ public class Proprietaire {
 	}
 
     public int nbrPersonnel() {
-        return personnels.size();
+        return nbrPersonnels;
 	}
     
 	public void gestionPersonnel () {  
@@ -67,11 +93,9 @@ public class Proprietaire {
             this.affichePersonnels();
             System.out.println("Quel employé souhaitez-vous supprimer ? Rentrez son ID");
             int numId = scanner.nextInt();
-            Personnel personnel = this.recupProfil(numId);
 
-            if (personnel != null) {
-                this.suppressionPersonnel(personnel);
-            }
+            this.suppressionPersonnel(numId);
+            
         }
         else {
             System.out.println("Cette option n'est pas disponible, veuillez rééssayer.") ;
@@ -110,13 +134,22 @@ public class Proprietaire {
 
         //Création de personnel et ajout à la liste
         Personnel personnel = new Personnel(nom, prenom, salaire, ville, dispos);
-        personnels.add(personnel);
+        addPersonnel(personnel);
         System.out.println("Ajout de l'employé avec succès");
 	}
 
-	private void suppressionPersonnel(Personnel personnel) {
-		personnels.remove(personnel) ;
-        System.out.println("Suppression de l'employé avec succès");
+	private void suppressionPersonnel(int numId) {
+        if (numId < nbrPersonnels) {
+            for (int i = numId; i < (nbrPersonnels - 1); i++) {
+                personnels[i] = personnels[i+1];
+            }
+            personnels[nbrPersonnels - 1] = null;
+            System.out.println("Suppression de l'employé avec succès");
+            nbrPersonnels--;
+        }
+        else {
+            System.out.println("Cet employé n'existe pas");
+        }
 	}
 	
 	private void modifierSalaire(Personnel personnel, double salaire) {
@@ -191,9 +224,9 @@ public class Proprietaire {
 
     public Chalet recupChalet (int numId) {
         //On parcourt tous les chalets et lorsque les IDs correspondent, on retourne le chalet
-        for (int i = 0; i < chalets.size(); i++) {
-            if (chalets.get(i).getNumId() == numId) {
-                return chalets.get(i);
+        for (int i = 0; i < nbrChalets; i++) {
+            if (chalets[i].getNumId() == numId) {
+                return chalets[i];
             }
         }
         //Si on parcouru tous les chalets dans en trouvé, on affiche un message d'erreur et on retourne un Chalet null
@@ -202,10 +235,10 @@ public class Proprietaire {
     }
 
 	public void afficheChalets() {
-        if (chalets.size() != 0) {
+        if (nbrChalets != 0) {
             System.out.println("Voici la liste des chalets :");
-            for (int i = 0; i < chalets.size(); i++) {
-                System.out.println(chalets.get(i).toString());
+            for (int i = 0; i < nbrChalets; i++) {
+                System.out.println(chalets[i].toString());
             }
         }
         else {
@@ -215,7 +248,7 @@ public class Proprietaire {
 	}
 	
 	public int nbrChalet() {
-        return chalets.size();
+        return nbrChalets;
 	}
 	
 	public void gestionChalet ( ) {
@@ -277,13 +310,25 @@ public class Proprietaire {
         
         // Création du chalet et ajout à la liste
         Chalet chalet = new Chalet(nom, numId, ville, adresse, nbrChambre, location, affectationEmploye);
-        chalets.add(chalet);
+        addChalet(chalet);
         System.out.println("Ajout du chalet avec succès");
 	}
 
 	private void suppressionChalet (Chalet chalet) {
-		chalets.remove(chalet) ;
-        System.out.println("Suppression du chalet avec succès");
+		boolean trouve = false;
+        for (int i = 0; i < nbrChalets; i++) {
+            if (chalets[i] == chalet) {
+                trouve = true;
+            }
+            if (trouve && (i < nbrChalets - 1)) {
+                chalets[i] = chalets[i+1];
+            }
+        }
+        if (trouve) {
+            chalets[nbrChalets - 1] = null;
+            System.out.println("Suppression du chalet avec succès");
+            nbrChalets--;
+        }
 	}
 	
 	public void afficheChalet(int numId) {

@@ -176,7 +176,7 @@ public class Main {
 		dispos[4] = true ;
 		dispos[5] = false ;
 		dispos[6] = false ;
-		Personnel personnel1 = new Personnel("Théo", "Bos", 2000.0, "Alignan du vent", dispos);
+		Personnel personnel1 = new Personnel("Shivaree", "Pimenta", 2999.0, "Bessan", dispos1);
 		proprietaire.addPersonnel(personnel1);
 
 		//Création d'un 2ème personnel
@@ -188,18 +188,18 @@ public class Main {
 		dispos2[4] = true ;
 		dispos2[5] = true ;
 		dispos2[6] = false ;
-		Personnel personnel2 = new Personnel("Shivaree", "Pimenta", 1999.0, "Bessan", dispos2);
+		Personnel personnel2 = new Personnel("Roman", "Loriot", 2000.0, "Noisy le Sec", dispos2);
 		proprietaire.addPersonnel(personnel2);
 
 		//Création d'un 3ème personnel
 		boolean dispos3[]=new boolean[7];
-		dispos2[0] = true ;
-		dispos2[1] = false ;
-		dispos2[2] = true ;
-		dispos2[3] = false ;
-		dispos2[4] = true ;
-		dispos2[5] = true ;
-		dispos2[6] = false ;
+		dispos3[0] = true ;
+		dispos3[1] = false ;
+		dispos3[2] = true ;
+		dispos3[3] = false ;
+		dispos3[4] = true ;
+		dispos3[5] = true ;
+		dispos3[6] = false ;
 		Personnel personnel3 = new Personnel("Yoann", "Rolland", 1000.0, "La Rochelle", dispos3);
 		proprietaire.addPersonnel(personnel3);
 
@@ -228,7 +228,7 @@ public class Main {
 		Scanner scanInt = new Scanner(System.in);
 		boolean arret = false ;
 
-		while (!arret) {
+		while (!arret){
 
 			//Menu général
 			System.out.println("Bienvenue dans le menu. Que souhaitez-vous faire : \n1 : Employé\n2 : Propriétaire\n3 : Quitter");
