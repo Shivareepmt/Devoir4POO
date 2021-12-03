@@ -79,8 +79,8 @@ public class Personnel {
 	
 	public void consulterChalet () {
 		System.out.println("Voici la liste des chalets dont vous vous occupez :\t");
-		for ( int i = 0 ; i < chalet.length ; i++) {
-			System.out.println(chalet[i].toString() + "\t");
+		for (int i = 0 ; i < chalet.length ; i++) {
+			System.out.println(chalet.get(i).toString() + "\t");
 		}
 	} 
 	
@@ -117,4 +117,8 @@ public class Personnel {
             chalet.add(nouveauChalet) ;
         }
 	}
+
+	public String toString() {
+        return (this.getNom() + " " + this.getPrenom());
+    }
 }
