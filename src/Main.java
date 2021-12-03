@@ -176,7 +176,7 @@ public class Main {
 		dispos[4] = true ;
 		dispos[5] = false ;
 		dispos[6] = false ;
-		Personnel personnel1 = new Personnel("Shivaree", "Pimenta", 2999.0, "Bessan", dispos1);
+		Personnel personnel1 = new Personnel("Shivaree", "Pimenta", 2999.0, "Bessan", dispos);
 		proprietaire.addPersonnel(personnel1);
 
 		//Création d'un 2ème personnel

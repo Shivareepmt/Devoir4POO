@@ -23,6 +23,14 @@ public class Proprietaire {
         personnels = buffer;
     }
 
+    private void reduireTaillePersonnels() {
+        Personnel buffer[] = new Personnel[nbrPersonnels + 5];
+        for (int i = 0; i < nbrPersonnels; i++) {
+            buffer[i] = personnels[i];
+        }
+        personnels = buffer;
+    }
+
     public void addPersonnel(Personnel personnel) {
         if (nbrPersonnels == personnels.length) {
             augmenterTaillePersonnels() ;
@@ -34,6 +42,14 @@ public class Proprietaire {
     private void augmenterTailleChalets() {
         Chalet buffer[] = new Chalet[chalets.length + 10];
         for (int i = 0; i < chalets.length; i++) {
+            buffer[i] = chalets[i];
+        }
+        chalets = buffer;
+    }
+
+    private void reduireTailleChalets() {
+        Chalet buffer[] = new Chalet[nbrChalets + 5];
+        for (int i = 0; i < nbrChalets; i++) {
             buffer[i] = chalets[i];
         }
         chalets = buffer;
@@ -149,6 +165,10 @@ public class Proprietaire {
         }
         else {
             System.out.println("Cet employé n'existe pas");
+        }
+        //Si jamais on a supprimé trop d'employés, on réduit la taille
+        if (nbrPersonnels < (personnels.length - 15)) {
+            reduireTaillePersonnels();
         }
 	}
 	
@@ -328,6 +348,11 @@ public class Proprietaire {
             chalets[nbrChalets - 1] = null;
             System.out.println("Suppression du chalet avec succès");
             nbrChalets--;
+        }
+
+        //Si jamais on a supprimé trop de chalets, on réduit la taille
+        if (nbrChalets < (chalets.length - 15)) {
+            reduireTailleChalets();
         }
 	}
 	
