@@ -20,14 +20,19 @@ public class Proprietaire {
         if (numId < personnels.size()) {
             return personnels.get(numId);
         }
-        System.out.println("Il n'y a pas d'employé avec cet ID.\t");
+        System.out.println("Il n'y a pas d'employé avec cet ID.");
         return null;
 	}
 
     public void affichePersonnels() {
-        System.out.println("Voici la liste des employés : \t");
-		for (int i = 0; i < personnels.size(); i++) {
-            System.out.println("Employé n°" + i + " : " + personnels.get(i).toString() + "\t");
+        if (personnels.size() != 0) {
+            System.out.println("Voici la liste des employés :");
+            for (int i = 0; i < personnels.size(); i++) {
+                System.out.println("Employé n°" + i + " : " + personnels.get(i).toString());
+            }
+        }
+        else {
+            System.out.println("Vous n'avez aucun employé");
         }
 	}
 
@@ -38,8 +43,9 @@ public class Proprietaire {
 	public void gestionPersonnel () {  
 
         //Récupération de l'action que souhaite effectuer l'utilisateur
-        System.out.println("Souhaitez vous ajouter ou supprimer un employé ? \t1 : Ajouter\t2 : Supprimer\t");
-        int reponse = 2 ; // Faire un scanner (je sais pas faire encore)
+        System.out.println("Souhaitez vous ajouter ou supprimer un employé ? \n1 : Ajouter\n2 : Supprimer");
+        Scanner scanner = new Scanner(System.in);
+        int reponse = scanner.nextInt();
 
         //Traitement de la demande
         if (reponse == 1) {
@@ -49,7 +55,8 @@ public class Proprietaire {
 
             //Récupération du personnel à supprimer
             this.affichePersonnels();
-            numId = 0; // Faire un scanner (je sais pas faire encore)
+            System.out.println("Quel employé souhaitez-vous supprimer ? Rentrez son ID");
+            int numId = scanner.nextInt();
             Personnel personnel = this.recupProfil(numId);
 
             if (personnel != null) {
@@ -57,41 +64,49 @@ public class Proprietaire {
             }
         }
         else {
-            System.out.println("Cette option n'est pas disponible, veuillez rééssayer.\t") ;
+            System.out.println("Cette option n'est pas disponible, veuillez rééssayer.") ;
         }
 	}
 	
 	private void ajoutPersonnel () {
 
+        Scanner scanString = new Scanner(System.in);
+        Scanner scanInt = new Scanner(System.in);
+        Scanner scanDouble = new Scanner(System.in);
+
         //Récupération des informations nécessaires à la création d'un nouveau personnel
         System.out.println("");
-        System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouvel employé.\t");
-        System.out.println("Nom : \t");
-        String nom; // Faire des scanners
-        System.out.println("Prénom : \t");
-        String prenom; // Faire des scanners
-        System.out.println("Salaire (en $CA) : \t");
-        double salaire; // Faire des scanners
-        System.out.println("Ville : \t");
-        String ville; // Faire des scanners
-        System.out.println("Veuillez rentrer les disponibilités de cet employé : ");
-        boolean dispos[]; 
-        for ( int i = 0 ; i < 7; i++) {
-			for (Jours_semaine Jours: Jours_semaine.values()) {
-				System.out.println("\t" + Jours + " : ");
-			}
-			dispos[i] = true; // Faire des scanners
-		}
+        System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouvel employé.");
+        System.out.println("Nom :");
+        String nom = scanString.next();
+        System.out.println("Prénom :");
+        String prenom = scanString.next(); 
+        System.out.println("Salaire (en $CA) :");
+        double salaire = scanDouble.nextDouble();
+        System.out.println("Ville :");
+        String ville = scanString.next();
+        System.out.println("Veuillez rentrer les disponibilités de cet employé :\n1 : Disponible\n2 : Pas disponible");
+        boolean dispos[] = new boolean[7]; 
+        for (Personnel.Jours_semaine Jours: Personnel.Jours_semaine.values()) {
+            System.out.println("Êtes-vous disponible le " + Jours + " : ");
+            int dispo = scanInt.nextInt();          
+            if (dispo == 1) {
+                dispos[Jours.ordinal()] = true;
+            }
+            else {
+                dispos[Jours.ordinal()] = false;
+            } 
+        }
 
         //Création de personnel et ajout à la liste
         Personnel personnel = new Personnel(nom, prenom, salaire, ville, dispos);
         personnels.add(personnel);
-        System.out.println("Ajout de l'employé avec succès\t");
+        System.out.println("Ajout de l'employé avec succès");
 	}
 
 	private void suppressionPersonnel(Personnel personnel) {
 		personnels.remove(personnel) ;
-        System.out.println("Suppression de l'employé avec succès\t");
+        System.out.println("Suppression de l'employé avec succès");
 	}
 	
 	public void modifierSalaire(Personnel personnel, double salaire) {
@@ -101,8 +116,8 @@ public class Proprietaire {
 	public void compareEmployes (int numId1, int numId2) {
 
         //Récupération des employés associés à l'ID
-        Personnel employe1 = this.recupProfil(NumId1);
-        Personnel employe2 = this.recupProfil(NumId2);
+        Personnel employe1 = this.recupProfil(numId1);
+        Personnel employe2 = this.recupProfil(numId2);
 
         //Comparaison de leurs salaires si les deux personnels existent
         if ((employe1 != null) && (employe2 != null)) {
@@ -135,7 +150,7 @@ public class Proprietaire {
     public Chalet recupChalet (int numId) {
         //On parcourt tous les chalets et lorsque les IDs correspondent, on retourne le chalet
         for (int i = 0; i < chalets.size(); i++) {
-            if (chalets.get(i).getId() == numId) {
+            if (chalets.get(i).getNumId() == numId) {
                 return chalets.get(i);
             }
         }
@@ -145,9 +160,9 @@ public class Proprietaire {
     }
 
 	public void afficheChalets() {
-		System.out.println("Voici la liste des chalets : \t");
+		System.out.println("Voici la liste des chalets :");
 		for (int i = 0; i < chalets.size(); i++) {
-            System.out.println(chalets.get(i).toString() + "\t");
+            System.out.println(chalets.get(i).toString());
         }
 	}
 	
@@ -156,9 +171,12 @@ public class Proprietaire {
 	}
 	
 	public void gestionChalet ( ) {
+
+        Scanner scanInt = new Scanner(System.in);
+
         //Récupération de l'action que souhaite faire l'utilisateur 
-        System.out.println("Souhaitez vous ajouter ou supprimer un chalet ? \t1 : Ajouter\t2 : Supprimer\t");
-        int reponse = 2 ; // Faire un scanner (je sais pas faire encore)
+        System.out.println("Souhaitez vous ajouter ou supprimer un chalet ? \n1 : Ajouter\n2 : Supprimer");
+        int reponse = scanInt.nextInt();
 
         //Traitement de la demande
         if (reponse == 1) {
@@ -167,8 +185,9 @@ public class Proprietaire {
         else if(reponse == 2) {
 
             //Récupération du chalet à supprimer
+            System.out.println("Quel chalet souhaitez-vous supprimer ? Rentrez son ID");
             this.afficheChalets();
-            numId = 0; // Faire un scanner (je sais pas faire encore)
+            int numId = scanInt.nextInt(); 
             Chalet chalet = this.recupChalet(numId);
 
             if (chalet != null) {
@@ -176,27 +195,30 @@ public class Proprietaire {
             }
         }
         else {
-            System.out.println("Cette option n'est pas disponible, veuillez rééssayer.\t") ;
+            System.out.println("Cette option n'est pas disponible, veuillez rééssayer.") ;
         }
 	}
 	
 	private void ajoutChalet () {
 
+        Scanner scanString = new Scanner(System.in);
+        Scanner scanInt = new Scanner(System.in);
+
         //Récupération des informations nécessaires à la création du chalet
-        System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouvel employé.\t");
-        System.out.println("Nom : \t");
-        String nom; // Faire des scanners
-        System.out.println("ID : \t");
-        String numId; // Faire des scanners
-        System.out.println("Ville : \t");
-        String ville; // Faire des scanners
-        System.out.println("Adresse : \t");
-	    String adresse; // Faire des scanners
-        System.out.println("Adresse : \t");
-	    int nbrChambre; // Faire des scanners
-        System.out.println("Location : \t1: oui\t2: non\t");
+        System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouveau chalet.");
+        System.out.println("Nom :");
+        String nom = scanString.next();
+        System.out.println("ID :");
+        int numId = scanInt.nextInt();
+        System.out.println("Ville :");
+        String ville = scanString.next();
+        System.out.println("Adresse :");
+	    String adresse = scanString.next();
+        System.out.println("Nombre de chambre(s) :");
+	    int nbrChambre = scanInt.nextInt();
+        System.out.println("Location : \n1: oui\n2: non");
 	    boolean location;
-        int reponseLocation = 1; // Faire des scanners
+        int reponseLocation = scanInt.nextInt();
         if (reponseLocation == 1) {
             location = true;
         }
@@ -208,12 +230,12 @@ public class Proprietaire {
         // Création du chalet et ajout à la liste
         Chalet chalet = new Chalet(nom, numId, ville, adresse, nbrChambre, location, affectationEmploye);
         chalets.add(chalet);
-        System.out.println("Ajout du chalet avec succès\t");
+        System.out.println("Ajout du chalet avec succès");
 	}
 
 	private void suppressionChalet (Chalet chalet) {
 		chalets.remove(chalet) ;
-        System.out.println("Suppression du chalet avec succès\t");
+        System.out.println("Suppression du chalet avec succès");
 	}
 	
 	public void afficheChalet(int numId) {
@@ -228,10 +250,12 @@ public class Proprietaire {
 	
 	public void gestionChaletEmploye (int numIdEmploye) {
 
+        Scanner scanInt = new Scanner(System.in);
+
         //Récupération du chalet à traiter
-        System.out.println("Veuillez sélectionner le chalet à ajouter ou supprimer\t");
+        System.out.println("Veuillez sélectionner le chalet à ajouter ou supprimer en rentrant son ID");
         this.afficheChalets();
-        numId = 0; // Faire un scanner (je sais pas faire encore)
+        int numId = scanInt.nextInt();
         Chalet chalet = this.recupChalet(numId);
 
         if (chalet != null) {
@@ -240,18 +264,18 @@ public class Proprietaire {
 
             if (personnel != null) {
                 //Récupération de l'action que souhaite faire l'utilisateur
-                System.out.println("Souhaitez vous ajouter ou supprimer un chalet ? \t1 : Ajouter\t2 : Supprimer\t");
-                int reponse = 2 ; // Faire un scanner (je sais pas faire encore)
+                System.out.println("Souhaitez vous ajouter ou supprimer un chalet ? \n1 : Ajouter\n2 : Supprimer");
+                int reponse = scanInt.nextInt();
 
                 //Traitement de la demande
                 if (reponse == 1) {
-                    this.ajoutChaletEmploye(chalet);
+                    this.ajoutChaletEmploye(personnel, chalet);
                 }
                 else if(reponse == 2) {
-                    this.suppressionChaletEmploye(chalet);
+                    this.suppressionChaletEmploye(personnel, chalet);
                 }
                 else {
-                    System.out.println("Cette option n'est pas disponible, veuillez rééssayer.\t") ;
+                    System.out.println("Cette option n'est pas disponible, veuillez rééssayer.") ;
                 }
 
             }
@@ -264,7 +288,7 @@ public class Proprietaire {
 
         //Le chalet devient alors affecté
         chalet.setAffectationEmploye(true);
-        System.out.println("Ajout de l'affectation du chalet à " + personnel.toString() + " avec succès\t");
+        System.out.println("Ajout de l'affectation du chalet à " + personnel.toString() + " avec succès");
     }
 
     private void suppressionChaletEmploye(Personnel personnel, Chalet chalet) {
@@ -273,17 +297,20 @@ public class Proprietaire {
 
         //Le chalet devient alors non-affecté
         chalet.setAffectationEmploye(false);
-        System.out.println("Suppression de l'affectation du chalet à " + personnel.toString() + " avec succès\t");
+        System.out.println("Suppression de l'affectation du chalet à " + personnel.toString() + " avec succès");
     }
 	
 	public void gestionLocation (int numIdChalet) {
+
+        Scanner scanInt = new Scanner(System.in);
+
         //Récupération du chalet à gérer
         Chalet chalet = this.recupChalet(numIdChalet);
         if (chalet != null) {
 
             //Récupération de l'action que souhaite faire l'utilisateur
-            System.out.println("Souhaitez vous mettre en location ou terminer la location du chalet ? \t1 : Mettre\t2 : Terminer\t");
-            int reponse = 2 ; // Faire un scanner (je sais pas faire encore)
+            System.out.println("Souhaitez vous mettre en location ou terminer la location du chalet ? \n1 : Mettre\n2 : Terminer");
+            int reponse = scanInt.nextInt(); 
 
             //Traitement de la demande
             if (reponse == 1) {
@@ -293,11 +320,11 @@ public class Proprietaire {
                 chalet.setLocation(false);
             }
             else {
-                System.out.println("Cette option n'est pas disponible, veuillez rééssayer.\t") ;
+                System.out.println("Cette option n'est pas disponible, veuillez rééssayer.") ;
             }
 
         }
 
 	}
-	
+
 }

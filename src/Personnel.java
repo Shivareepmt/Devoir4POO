@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Personnel {
 	
-	private enum Jours_semaine {Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche};
+	public enum Jours_semaine {Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche};
 	
 	private String nom;
 	private String prenom;
