@@ -12,7 +12,7 @@ public class Proprietaire {
 		// C'est plus simple d'utilisation pour le propriétaire
 	}
 	
-    // Pour l'initialisation :
+    // Pour l'initialisation à la main :
 
     public void addPersonnel(Personnel personnel) {
         this.personnels.add(personnel);
@@ -88,13 +88,13 @@ public class Proprietaire {
         System.out.println("");
         System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouvel employé.");
         System.out.println("Nom :");
-        String nom = scanString.next();
+        String nom = scanString.nextLine();
         System.out.println("Prénom :");
-        String prenom = scanString.next(); 
+        String prenom = scanString.nextLine(); 
         System.out.println("Salaire (en $CA) :");
         double salaire = scanDouble.nextDouble();
         System.out.println("Ville :");
-        String ville = scanString.next();
+        String ville = scanString.nextLine();
         System.out.println("Veuillez rentrer les disponibilités de cet employé :\n1 : Disponible\n2 : Pas disponible");
         boolean dispos[] = new boolean[7]; 
         for (Personnel.Jours_semaine Jours: Personnel.Jours_semaine.values()) {
@@ -255,13 +255,13 @@ public class Proprietaire {
         //Récupération des informations nécessaires à la création du chalet
         System.out.println("Veuillez saisir les informations suivantes pour ajouter un nouveau chalet.");
         System.out.println("Nom :");
-        String nom = scanString.next();
+        String nom = scanString.nextLine();
         System.out.println("ID :");
         int numId = scanInt.nextInt();
         System.out.println("Ville :");
-        String ville = scanString.next();
+        String ville = scanString.nextLine();
         System.out.println("Adresse :");
-	    String adresse = scanString.next();
+	    String adresse = scanString.nextLine();
         System.out.println("Nombre de chambre(s) :");
 	    int nbrChambre = scanInt.nextInt();
         System.out.println("Location : \n1: oui\n2: non");

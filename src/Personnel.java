@@ -73,15 +73,15 @@ public class Personnel {
 	}
 	
 	private void modifierDispo (String jour) {
-		System.out.println("Vous avez sélectionné le jour : " + jour + "\n");
+		System.out.println("Vous avez bien modifié la disponibilité pour le jour : " + jour + "\n");
         dispos[Jours_semaine.valueOf(jour).ordinal()] = !dispos[Jours_semaine.valueOf(jour).ordinal()] ;		
 	}
 
 	public void menuModifierDispo(){
 		Scanner scanString = new Scanner(System.in);
 		System.out.println("Pour quel jour souhaitez vous modifier votre disponibilité ?");
-		String jour = scanString.next();
-		if ((jour == "Lundi") || (jour == "Mardi") ||(jour == "Mercredi") ||(jour == "Jeudi") ||(jour == "Vendredi") ||(jour == "Samedi") ||(jour == "Dimanche")) {
+		String jour = scanString.nextLine();
+		if ((jour.equals("Lundi")) || (jour.equals("Mardi")) ||(jour.equals("Mercredi")) ||(jour.equals("Jeudi")) ||(jour.equals("Vendredi")) ||(jour.equals("Samedi")) ||(jour.equals("Dimanche"))) {
 			this.modifierDispo(jour);
 		}
 		else {

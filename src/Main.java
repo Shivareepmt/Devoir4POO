@@ -76,9 +76,9 @@ public class Main {
 
 		//Vérification du mot de passe
 		System.out.println("Bienvenue dans le sous-menu proprietaire.\nVeuillez saisir le mot de passe pour accéder au menu.");
-		String motDePasse = scanString.next();
+		String motDePasse = scanString.nextLine();
 		//UPDATE : Gérer le mot de passe ca marche pas
-		if (true /*motDePasse == "chaletsProprio21"*/) {
+		if (motDePasse.equals("chaletsProprio21")) {
 
 			while (!arret) {
 				System.out.println("Que souhaitez-vous faire : \n1 : Afficher la liste des employés\n2 : Afficher la liste des chalets\n3 : Afficher le nombre d'employés\n4 : Afficher le nombre de chalets\n5 : Gérer les employés\n6 : Gérer les chalets\n7 : Modifier le salaire d'un employé\n8 : Comparer le salaire de deux employés\n9 : Afficher les disponibilités d'un employé\n10 : Afficher les chalets associés à un employé\n11 : Gérer les chalets associé à un employé\n12 : Gérer la location d'un chalet\n13 : Retour");
