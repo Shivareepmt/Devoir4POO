@@ -72,10 +72,21 @@ public class Personnel {
 		
 	}
 	
-	public void modifierDispo (String jour) {
+	private void modifierDispo (String jour) {
         // UPDATE : Prendre la valeur booléenne en argument
 		System.out.println("Vous avez sélectionné le jour : " + jour + "\n");
         dispos[Jours_semaine.valueOf(jour).ordinal()] = !dispos[Jours_semaine.valueOf(jour).ordinal()] ;		
+	}
+
+	public void menuModifierDispo(){
+		System.out.println("Pour quel jour souhaitez vous modifier votre disponibilité ?");
+		String jour = scanString.next();
+		if ((jour == "Lundi") || (jour == "Mardi") ||(jour == "Mercredi") ||(jour == "Jeudi") ||(jour == "Vendredi") ||(jour == "Samedi") ||(jour == "Dimanche")) {
+			this.modifierDispo(jour);
+		}
+		else {
+			System.out.println("Ce jour n'est pas valide. Veuillez rentrer en entier votre jour (Exemple : Lundi)");
+		}	
 	}
 	
 	public void consulterChalet () {

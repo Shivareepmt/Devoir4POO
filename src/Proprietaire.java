@@ -109,11 +109,25 @@ public class Proprietaire {
         System.out.println("Suppression de l'employé avec succès");
 	}
 	
-	public void modifierSalaire(Personnel personnel, double salaire) {
+	private void modifierSalaire(Personnel personnel, double salaire) {
 		personnel.setSalaire(salaire);
 	}	
+
+    public void menuModifierSalaire() {
+        Scanner scanInt = new Scanner(System.in);
+        Scanner scanDouble = new Scanner(System.in);
+        System.out.println("De quel employé souhaitez vous modifier le salaire ? Choississez en rentrant son ID");
+        this.affichePersonnels();
+        int numId = scanInt.nextInt();
+        Personnel personnel = this.recupProfil(numId);
+        if (personnel != null) {
+            System.out.println("Quel salaire souhaitez vous lui donner ?");
+            double salaire = scanDouble.nextDouble();
+            this.modifierSalaire(personnel, salaire);
+        }
+    }
 	
-	public void compareEmployes (int numId1, int numId2) {
+	private void compareEmployes (int numId1, int numId2) {
 
         //Récupération des employés associés à l'ID
         Personnel employe1 = this.recupProfil(numId1);
@@ -135,7 +149,17 @@ public class Proprietaire {
         }
 	}
 	
-	public void afficherDispos(int numId) {
+    public void menuCompareEmployes () {
+        Scanner scanInt = new Scanner(System.in);
+        System.out.println("Choississez le premier employé à comparer en rentrant son ID");
+        this.affichePersonnels();
+        int numId1 = scanInt.nextInt();
+        System.out.println("Choississez le second employé à comparer en rentrant son ID");
+        int numId2 = scanInt.nextInt();
+        this.compareEmployes(numId1, numId2);
+    }
+
+	private void afficherDispos(int numId) {
         //Récupération du personnel associé à l'ID
         Personnel personnel = this.recupProfil(numId);
 
@@ -145,6 +169,13 @@ public class Proprietaire {
         }   	
 	}
 	
+    public void menuAfficherDispos() {
+        System.out.println("Choississez l'employé dont vous souhaitez voir les disponibilités en rentrant son ID");
+        this.affichePersonnels();
+        int numId = scanInt.nextInt();
+        this.afficherDispos(numId);
+    }
+    
     // Méthodes pour les chalets :
 
     public Chalet recupChalet (int numId) {
@@ -248,9 +279,23 @@ public class Proprietaire {
         }		
 	}
 	
-	public void gestionChaletEmploye (int numIdEmploye) {
+    public void menuConsulterChaletsEmploye() {
+		Scanner scanInt = new Scanner(System.in);
+        System.out.println("Choississez l'employé dont vous souhaitez voir les chalets associés en rentrant son ID");
+        this.affichePersonnels();
+        int numId = scanInt.nextInt();
+        Personnel personnel = this.recupProfil(numId);
+        personnel.consulterChalet();
+    }
+
+	public void menuGestionChaletEmploye () {
 
         Scanner scanInt = new Scanner(System.in);
+
+        //Récupération de l'employé concerné
+        System.out.println("Choississez l'employé dont vous souhaitez gérer les chalets associés en rentrant son ID");
+        this.affichePersonnels();
+        int numIdEmploye = scanInt.nextInt();
 
         //Récupération du chalet à traiter
         System.out.println("Veuillez sélectionner le chalet à ajouter ou supprimer en rentrant son ID");
@@ -300,11 +345,14 @@ public class Proprietaire {
         System.out.println("Suppression de l'affectation du chalet à " + personnel.toString() + " avec succès");
     }
 	
-	public void gestionLocation (int numIdChalet) {
+	public void menuGestionLocation () {
 
         Scanner scanInt = new Scanner(System.in);
 
         //Récupération du chalet à gérer
+        System.out.println("Choississez le chalet dont vous voulez vous occuper en rentrant son ID");
+        this.afficheChalets();
+        numIdChalet = scanInt.nextInt();
         Chalet chalet = this.recupChalet(numIdChalet);
         if (chalet != null) {
 
