@@ -9,7 +9,7 @@ public class Personnel {
 	private double salaire;
 	private String ville;
 	private boolean dispos[]=new boolean[7];
-    private List<Chalet> chalet = new ArrayList<Chalet>();
+    private Chalet chalet[] = new Chalet[4];
 	
 	public Personnel(String nom, String prenom, double salaire,String ville,boolean dispos[]) {
 		
@@ -18,6 +18,9 @@ public class Personnel {
 		this.salaire=salaire;
 		this.ville=ville;
 		this.dispos=dispos;
+		for (int i = 0; i < chalet.length; i++) {
+			chalet[i] = null;
+		}
 
 	}
 	
@@ -89,11 +92,21 @@ public class Personnel {
 		}	
 	}
 	
+	private int nbrChalet() {
+		int compteur = 0;
+		for (int i = 0; i < chalet.length; i++) {
+			if (chalet[i] != null) {
+				compteur++;
+			}
+		}
+		return compteur;
+	}
+
 	public void consulterChalet () {
-		if (this.chalet.size() != 0) {
+		if (nbrChalet() != 0) {
 			System.out.println("Voici la liste des chalets dont vous vous occupez :\n");
-			for (int i = 0 ; i < this.chalet.size() ; i++) {
-				System.out.println(chalet.get(i).toString() + "\n");
+			for (int i = 0 ; i < nbrChalet() ; i++) {
+				System.out.println(chalet[i].toString() + "\n");
 			}
 		}
 		else {
@@ -119,20 +132,33 @@ public class Personnel {
 	}
 	
 	public void supprimerChalet (Chalet chaletASupprimer) {
-		if (chalet.contains(chaletASupprimer)) {
-            chalet.remove(chaletASupprimer) ;
-        }
-        else {
+
+		//Je cherche si mon chalet est dans ma liste
+		//Si c'est le cas, je l'écrase et je décale tous les suivants dans la liste pour libérer la place en fin de tableau
+		boolean trouve = false;
+		for (int i = 0; i < nbrChalet(); i++) {
+			if (chalet[i] == chaletASupprimer) {
+				trouve = true;
+			}
+			if (trouve && (i != (nbrChalet() - 1))) {
+				chalet[i] = chalet[i+1];
+			} 
+		}
+		if (trouve) {
+			chalet[nbrChalet() - 1] = null;
+		}
+		else {
             System.out.println("Cet employé ne s'occupe pas de ce chalet.") ;
         }
 	}
 	
 	public void ajouterChalet (Chalet nouveauChalet) {
-        if (chalet.size() == 4) {
+		int nbrChalet = nbrChalet();
+        if (nbrChalet == 4) {
             System.out.println("Cet employé s'occupe déjà de 4 chalets. Il ne peut en prendre plus \n");
         }
         else {
-            chalet.add(nouveauChalet) ;
+            chalet[nbrChalet] = nouveauChalet;
         }
 	}
 
