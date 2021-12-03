@@ -10,7 +10,6 @@ public class Personnel {
 	private String ville;
 	private boolean dispos[]=new boolean[7];
     private List<Chalet> chalet = new ArrayList<Chalet>();
-	private Jours_semaine Jours ;
 	
 	public Personnel(String nom, String prenom, double salaire,String ville,boolean dispos[]) {
 		
@@ -19,6 +18,7 @@ public class Personnel {
 		this.salaire=salaire;
 		this.ville=ville;
 		this.dispos=dispos;
+
 	}
 	
 	// Accesseurs :
@@ -57,35 +57,42 @@ public class Personnel {
 		this.ville=ville;
 		
 	}
-	
+
 	// Méthodes :
 	
 	public void voirDispos () {
-        System.out.println("Disponibilités de l'employé : \t");
+        System.out.println("Disponibilités de l'employé : \n");
 		
-		for ( int i = 0 ; i < dispos.length; i++) {
-			for (Jours_semaine Jours: Jours_semaine.values()) {
-				System.out.println(Jours + " : ");
-			}
-			System.out.println(dispos[i] + "\t");
+		int i = 0;
+		for (Jours_semaine Jours: Jours_semaine.values()) {
+			System.out.println(Jours + " : " + ((dispos[i] == true) ? "Disponible" : "Pas disponible"));
+			i++;
 		}
+		System.out.println("\n");
+		
 	}
 	
-	public void modifierDispo (int jour) {
+	public void modifierDispo (String jour) {
         // UPDATE : Prendre la valeur booléenne en argument
-		System.out.println("Vous avez sélectionné le jour : " + Jours.valueOf(arg[jour]) + "\t");
-        dispos[jour] = !dispos[jour] ;		
+		System.out.println("Vous avez sélectionné le jour : " + jour + "\n");
+        dispos[Jours_semaine.valueOf(jour).ordinal()] = !dispos[Jours_semaine.valueOf(jour).ordinal()] ;		
 	}
 	
 	public void consulterChalet () {
-		System.out.println("Voici la liste des chalets dont vous vous occupez :\t");
-		for (int i = 0 ; i < chalet.length ; i++) {
-			System.out.println(chalet.get(i).toString() + "\t");
+		if (this.chalet.size() != 0) {
+			System.out.println("Voici la liste des chalets dont vous vous occupez :\n");
+			for (int i = 0 ; i < this.chalet.size() ; i++) {
+				System.out.println(chalet.get(i).toString() + "\n");
+			}
 		}
+		else {
+			System.out.println("Vous ne vous occupez d'aucun chalet\n");
+		}
+		
 	} 
 	
 	public String voirSalaire () {		
-		return "Voici votre salaire actuel " + salaire + " $CA.";
+		return "Voici votre salaire actuel : " + salaire + " $CA.";
 	}
 	
 	public int compareTo (Personnel employe) {		
@@ -111,7 +118,7 @@ public class Personnel {
 	
 	public void ajouterChalet (Chalet nouveauChalet) {
         if (chalet.size() == 4) {
-            System.out.println("Cet employé s'occupe déjà de 4 chalets. Il ne peut en prendre plus \t");
+            System.out.println("Cet employé s'occupe déjà de 4 chalets. Il ne peut en prendre plus \n");
         }
         else {
             chalet.add(nouveauChalet) ;
@@ -121,4 +128,5 @@ public class Personnel {
 	public String toString() {
         return (this.getNom() + " " + this.getPrenom());
     }
+
 }
