@@ -9,7 +9,7 @@ public class Personnel {
 	private double salaire;
 	private String ville;
 	private boolean dispos[]=new boolean[7];
-	private Chalet chalet[]=new Chalet[4];
+    private List<Chalet> chalet = new ArrayList<Chalet>();*
 	private Jours_semaine Jours ;
 	
 	public Personnel(String nom, String prenom, double salaire,String ville,boolean dispos[]) {
@@ -72,57 +72,49 @@ public class Personnel {
 	}
 	
 	public void modifierDispo (int jour) {
-		//Chaque employé peut modifier sa disponibilité pour une journée en rentrant l'indice
-		//du jour de travail à modifier 
-		
-		//Chaque jour a un integer associé que l'on va inverser
-		
-		System.out.println("Vous avez sélectionné le jour : " + Jours.valueOf(arg[jour]));
-		
-		if (dispos[jour] == true) {
-			dispos[jour] = false;
-		}
-		else {
-			dispos[jour] = true;
-		}
-			
-		
+        // UPDATE : Prendre la valeur booléenne en argument
+		System.out.println("Vous avez sélectionné le jour : " + Jours.valueOf(arg[jour]) + "\t");
+        dispos[jour] = !dispos[jour] ;		
 	}
 	
 	public void consulterChalet () {
-		//affiche la liste des chalets dont s'occupe l'employé
-		System.out.println("Voici la liste des chalets dont vous vous occupez :");
-		
-		for ( int i = 0 ; i < Chalet.sizeof() ; i++) {
-			System.out.println(Chalet[i]);
+		System.out.println("Voici la liste des chalets dont vous vous occupez :\t");
+		for ( int i = 0 ; i < chalet.length ; i++) {
+			System.out.println(chalet[i].toString() + "\t");
 		}
-		
 	} 
 	
-	public String voirSalaire () {
-		//affiche le salaire de l'employé
-		
-		return "Voici votre salaire actuel" + salaire + " euros.";
+	public String voirSalaire () {		
+		return "Voici votre salaire actuel " + salaire + " $CA.";
 	}
 	
-	public boolean compareTo (Personnel employe) {
-		//peut être améliorer pour traiter le cas de 2 salaires égaux;
-		
-		if (this.salaire > employe.getSalaire) {
-			return true;	
+	public int compareTo (Personnel employe) {		
+		if (this.salaire > employe.getSalaire()) {
+			return 1;	
 		}
-		
-		else {
-			return false;
+		else if (this.salaire == employe.getSalaire()){
+			return 0;
 		}
-			
+        else {
+            return -1;
+        }
 	}
 	
-	public void supprimerChalet (int numIdChalet) {
-		//supprime le chalet de la liste de l'employé 
+	public void supprimerChalet (Chalet chaletASupprimer) {
+		if (chalet.contains(chaletASupprimer)) {
+            chalet.remove(chaletASupprimer) ;
+        }
+        else {
+            System.out.println("Cet employé ne s'occupe pas de ce chalet.") ;
+        }
 	}
 	
-	public void ajouterChalet (int numIdChalet) {
-		//ajouter le chalet (existant) dans la liste des chalets de l'employé 
+	public void ajouterChalet (Chalet nouveauChalet) {
+        if (chalet.size() == 4) {
+            System.out.println("Cet employé s'occupe déjà de 4 chalets. Il ne peut en prendre plus \t");
+        }
+        else {
+            chalet.add(nouveauChalet) ;
+        }
 	}
 }
